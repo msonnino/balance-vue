@@ -53,7 +53,7 @@ watch(currentCode, () => {
         I didn't want to do it just for "the show". Hope I didn't miss anything. -->
     <div class="pin-code-container">
         <div v-if="isLoading">
-            <!-- just created a simple css spinner for demo purpose -->
+            <!-- just used a simple css spinner for demo purposes -->
             <SimpleSpinner />
         </div>
         <div v-else class="circle-display">
@@ -66,8 +66,9 @@ watch(currentCode, () => {
         </div>
         <div class="buttons-container">
             <button v-for="(inputValue, index) in PIN_CODE_BUTTONS_ARRAY" @click="onInputClick(inputValue)" :key="index"
-                class="input-button">{{ inputValue
-                }}</button>
+                class="input-button">
+                {{ inputValue }}
+            </button>
         </div>
     </div>
 </template>

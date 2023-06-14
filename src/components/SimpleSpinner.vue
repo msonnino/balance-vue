@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-// THIS IS A SIMPLE CSS SPINNER FOR DEMO. SOURCE: https://loading.io/css/
+// I JUST COPIED THIS SIMPLE CSS SPINNER FOR DEMO. SOURCE: https://loading.io/css/
 </script>
 
 <template>

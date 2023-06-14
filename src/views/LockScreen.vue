@@ -47,7 +47,6 @@ const onPinFail = () => {
   <main class="main-container">
     <!-- I've decided to move the title outside of the PinCode component. Made more sense to me. -->
     <p class="title">Confirm your new PIN</p>
-    <!-- We could decide the we want to implement custom behavior for 'onPinFail' as well, but I've decided to leave it as it is -->
     <PinCodeAuth @input="onInput" @codeComplete="onCodeComplete" :codeLength="CODE_LENGTH"
       :shouldShowError="shouldShowError" :isLoading="isAuthLoading" />
   </main>
