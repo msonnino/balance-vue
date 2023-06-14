@@ -2,7 +2,7 @@
 import PinCodeAuth from '@/components/PinCodeAuth/PinCodeAuth.vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth'
-import { PASSWORD } from '@/components/PinCodeAuth/const';
+import { PASSWORD, CODE_LENGTH } from './const';
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -18,7 +18,8 @@ const onPinSuccess = () => {
   <main class="main-container">
     <!-- I've decided to move the title outside of the PinCode component. Made more sense to me. -->
     <p class="title">Confirm your new PIN</p>
-    <PinCodeAuth @success="onPinSuccess" :correctPassword="PASSWORD" />
+    <!-- We could decide the we want to implement custom behavior for 'onPinFail' as well, but I've decided to leave it as it is -->
+    <PinCodeAuth @success="onPinSuccess" :codeLength="CODE_LENGTH" :correctPassword="PASSWORD" />
   </main>
 </template>
 

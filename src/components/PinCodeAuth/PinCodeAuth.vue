@@ -1,8 +1,15 @@
 <script setup lang='ts'>
 import { ref, watch } from 'vue';
-import { CODE_LENGTH, PIN_CODE_BUTTONS_ARRAY } from './const'
+import { PIN_CODE_BUTTONS_ARRAY } from './const'
+
+/*
+The props interface could be exported to a separate types.ts file,
+but I like to leave it in the component file
+so it is clearly visible for anyone working on the component
+*/
 
 interface LockAuthProps {
+    codeLength: number,
     correctPassword: string,
 }
 
@@ -25,7 +32,7 @@ const onInputClick = (input: string) => {
 
 // watch for the current code and check correctness when it reaches correct length
 watch(currentCode, () => {
-    if (currentCode.value.length >= 4) {
+    if (currentCode.value.length >= props.codeLength) {
         if (currentCode.value === props.correctPassword) {
             emit('success')
         } else {
@@ -39,9 +46,11 @@ watch(currentCode, () => {
 </script>
 
 <template>
+    <!-- In the current use-case I did not see a practical reason to divide this component into more sub-components.
+        I didn't want to do it just for "the show". Hope I didn't miss anything. -->
     <div class="pin-code-container">
         <div class="circle-display">
-            <div v-for="n in CODE_LENGTH" :key="n" class="code-circle"
+            <div v-for="n in codeLength" :key="n" class="code-circle"
                 :class="n <= currentCode.length ? 'filled-circle' : ''">
             </div>
         </div>
