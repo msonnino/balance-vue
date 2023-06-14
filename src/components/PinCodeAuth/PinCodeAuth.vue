@@ -1,28 +1,34 @@
 <script setup lang='ts'>
 import { ref, watch } from 'vue';
 import { PIN_CODE_BUTTONS_ARRAY } from './const'
-
+import SimpleSpinner from "@/components/SimpleSpinner.vue"
 /*
 The props interface could be exported to a separate types.ts file,
 but I like to leave it in the component file
 so it is clearly visible for anyone working on the component
 */
 
+// PROPS:
 interface LockAuthProps {
     codeLength: number,
-    correctPassword: string,
+    shouldShowError?: boolean
+    isLoading?: boolean
 }
 
-const props = defineProps<LockAuthProps>()
+const props = withDefaults(defineProps<LockAuthProps>(), {
+    shouldShowError: false,
+    isLoading: false
+})
 
-const emit = defineEmits(['success'])
+// EMITS:
+const emit = defineEmits(['input', 'codeComplete'])
 
+// DATA:
 const currentCode = ref<string>('')
 
-const shouldShowError = ref<boolean>(false)
-
+// METHODS:
 const onInputClick = (input: string) => {
-    shouldShowError.value = false
+    emit('input')
     if (input === 'X') {
         currentCode.value = currentCode.value.slice(0, -1)
     } else {
@@ -30,14 +36,11 @@ const onInputClick = (input: string) => {
     }
 }
 
+// WATCHERS:
 // watch for the current code and check correctness when it reaches correct length
 watch(currentCode, () => {
     if (currentCode.value.length >= props.codeLength) {
-        if (currentCode.value === props.correctPassword) {
-            emit('success')
-        } else {
-            shouldShowError.value = true
-        }
+        emit('codeComplete', currentCode.value)
         // in either cases we reset the code
         currentCode.value = ''
     }
@@ -49,7 +52,11 @@ watch(currentCode, () => {
     <!-- In the current use-case I did not see a practical reason to divide this component into more sub-components.
         I didn't want to do it just for "the show". Hope I didn't miss anything. -->
     <div class="pin-code-container">
-        <div class="circle-display">
+        <div v-if="isLoading">
+            <!-- just created a simple css spinner for demo purpose -->
+            <SimpleSpinner />
+        </div>
+        <div v-else class="circle-display">
             <div v-for="n in codeLength" :key="n" class="code-circle"
                 :class="n <= currentCode.length ? 'filled-circle' : ''">
             </div>
